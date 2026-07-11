@@ -1,0 +1,21 @@
+{
+  "name": "lead-rating-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Расчёт рейтинга лида Битрикс24 по таблице весов (для вызова из БП)",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node --watch server.mjs",
+    "deploy": "layero deploy --json --yes --promote"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "layero": "^0.8.2"
+  }
+}

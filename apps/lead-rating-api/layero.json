@@ -1,0 +1,5 @@
+{
+  "env": {
+    "PUBLIC_BASE_URL": "https://eldaga-lead-rating-api.preview.layero.ru"
+  }
+}

@@ -1,0 +1,24 @@
+---
+description: Битрикс24 — локальное приложение и активити БП (auth, URL, зависания, Layero)
+alwaysApply: true
+---
+
+# Bitrix24 local app / BP activity
+
+Полный разбор: `docs/bitrix-local-app-activity.md`. Рабочий пример: `apps/lead-rating-api/`.
+
+## Must
+
+- Список — **Интеграции** (`/devops/list/`), не плитка «Другое».
+- Серверное приложение; права **crm** + **bizproc**.
+- В карточке только `/bitrix/handler` + `/bitrix/install`; **`/bitrix/activity` в карточку нельзя**.
+- Для Битрикс URL — **Layero preview**, не apex.
+- OAuth: `BITRIX_CLIENT_ID`/`SECRET` + save-auth при открытии меню.
+- После деплоя Layero OAuth-файл стирается → в Layero держать **отдельный** `BITRIX_WEBHOOK_URL` (crm+bizproc) или refresh. Не переиспользовать вебхук других систем; не «Перегенерировать» чужие. Вебхук — запас для своего портала, не схема раздачи другим.
+- Активити: REST → **`bizproc.event.send` до HTTP 200**; писать рейтинг **только если значение изменилось**.
+- Bool `AutoFromLead`/`WriteToLead`: пусто = Да (`propFlag`).
+
+## Debug
+
+- `GET /bitrix/debug/last-activity`, `/bitrix/debug/oauth-status`.
+- Не коммитить и не светить в чате `client_secret` / URL вебхука / токены.

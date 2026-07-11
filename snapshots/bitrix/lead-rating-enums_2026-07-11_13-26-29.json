@@ -1,0 +1,510 @@
+{
+  "exportedAt": "2026-07-11T10:26:29.620Z",
+  "method": "crm.lead.fields (+ crm.lead.userfield.get)",
+  "entity": "lead",
+  "purpose": "lead-rating / категория клиента",
+  "labelNeedles": [
+    "категория/сумма долга",
+    "сумма долга",
+    "готовность ко встрече",
+    "готовность внести аванс",
+    "платежеспособность",
+    "контактность",
+    "статус клиента",
+    "обрушающ",
+    "рейтинг лида"
+  ],
+  "missingNeedles": [],
+  "count": 11,
+  "fields": [
+    {
+      "field": "UF_CRM_1783352227223",
+      "labelRu": "Готовность внести аванс",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783352227223",
+      "items": [
+        {
+          "id": "3280",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3230",
+          "value": "Нет возможности",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3232",
+          "value": "Сомневается",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3234",
+          "value": "Рассматривает рассрочку",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3236",
+          "value": "Готов обсуждать сразу",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783352136338",
+      "labelRu": "Готовность ко встрече",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783352136338",
+      "items": [
+        {
+          "id": "3206",
+          "value": "Интересуется",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3208",
+          "value": "Думает, не определился",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3210",
+          "value": "Готов в ближайшие 7 дней",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3212",
+          "value": "Готов записаться сейчас",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3276",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783351191840",
+      "labelRu": "Категория/сумма долга",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783351191840",
+      "items": [
+        {
+          "id": "3198",
+          "value": "До 300 т.р.",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3200",
+          "value": "От 300 до 500 т.р.",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3202",
+          "value": "От 500 до 1 млн р.",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3204",
+          "value": "Свыше 1 млн.",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3272",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783352405208",
+      "labelRu": "Контактность",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783352405208",
+      "items": [
+        {
+          "id": "3284",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3252",
+          "value": "Всегда на связи",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3250",
+          "value": "Отвечает",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3248",
+          "value": "Отвечает редко",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3246",
+          "value": "Сложно дозвониться",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783352659426",
+      "labelRu": "Обрушающие факторы",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783352659426",
+      "items": [
+        {
+          "id": "3270",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3262",
+          "value": "Нестандартная ситуация",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3264",
+          "value": "Высокий офиц. доход  (не соразмерный долгу)",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3266",
+          "value": "Арестовано имущество, которое не готов терять",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3268",
+          "value": "Неоправданные ожидания по сохранению имущества",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783352320246",
+      "labelRu": "Платежеспособность",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783352320246",
+      "items": [
+        {
+          "id": "3282",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3238",
+          "value": "Студент/пенсионер без поддержки",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3240",
+          "value": "Доход от 30 тыс",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3242",
+          "value": "Госслужащие/менеджеры",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3244",
+          "value": "Предприниматели/учредители/директора",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783504656939",
+      "labelRu": "Рейтинг лида",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783504656939",
+      "items": [
+        {
+          "id": "3484",
+          "value": "А+",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3486",
+          "value": "А",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3488",
+          "value": "В",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3490",
+          "value": "С",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1783352504646",
+      "labelRu": "Статус клиента",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1783352504646",
+      "items": [
+        {
+          "id": "3254",
+          "value": "Нет просрочек",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3256",
+          "value": "Первые просрочки",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3258",
+          "value": "Просрочки более 60 дней",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3260",
+          "value": "Просрочки более 90 дней",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "3286",
+          "value": "Нет данных",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_1773080417124",
+      "labelRu": "Сумма долга",
+      "type": "enumeration",
+      "multiple": false,
+      "userFieldId": "1773080417124",
+      "items": [
+        {
+          "id": "2804",
+          "value": "до 50 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2806",
+          "value": "50 000 - 100 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2808",
+          "value": "100 000 - 200 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2810",
+          "value": "200 000 - 300 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2812",
+          "value": "300 000 - 400 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2814",
+          "value": "400 000 - 500 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2816",
+          "value": "500 000 - 600 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2818",
+          "value": "600 000 - 700 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2820",
+          "value": "700 000 - 800 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2822",
+          "value": "800 000 - 900 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2824",
+          "value": "900 000 - 1 000 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2826",
+          "value": "1 000 000 - 1 100 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2828",
+          "value": "1 100 000 - 1 200 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2830",
+          "value": "1 200 000 - 1 300 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2832",
+          "value": "1 300 000 - 1 400 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2834",
+          "value": "1 400 000 - 1 500 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        },
+        {
+          "id": "2836",
+          "value": "свыше 1 500 000",
+          "xmlId": "",
+          "sort": null,
+          "def": false
+        }
+      ]
+    },
+    {
+      "field": "UF_CRM_LGB_SUMM",
+      "labelRu": "Сумма Долга",
+      "type": "string",
+      "multiple": false,
+      "items": [],
+      "note": "Поле найдено по имени, но тип не enumeration — варианты списка не выгружены"
+    },
+    {
+      "field": "UF_CRM_LEAD_1697094201079",
+      "labelRu": "Сумма долга (старое)",
+      "type": "string",
+      "multiple": false,
+      "items": [],
+      "note": "Поле найдено по имени, но тип не enumeration — варианты списка не выгружены"
+    }
+  ]
+}

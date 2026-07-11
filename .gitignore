@@ -18,6 +18,9 @@ Desktop.ini
 .env
 .env.*
 !.env.example
+
+# Локальные пометки инструментов (не коммитить)
+tools/**/.local/
 *.pem
 *.key
 credentials.json
@@ -33,3 +36,10 @@ yarn-error.log*
 dist/
 build/
 .cache/
+
+# Layero CLI auth token (project link .layero/project.json — ок коммитить)
+.layero/auth.json
+**/auth.json
+
+# OAuth-токены портала (пишет /bitrix/save-auth)
+apps/lead-rating-api/data/bitrix-oauth.json
