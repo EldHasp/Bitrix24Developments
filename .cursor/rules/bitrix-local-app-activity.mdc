@@ -16,7 +16,8 @@ alwaysApply: true
 - OAuth: `BITRIX_CLIENT_ID`/`SECRET` + save-auth при открытии меню.
 - После деплоя Layero OAuth-файл стирается → в Layero держать **отдельный** `BITRIX_WEBHOOK_URL` (crm+bizproc) или refresh. Не переиспользовать вебхук других систем; не «Перегенерировать» чужие. Вебхук — запас для своего портала, не схема раздачи другим.
 - Активити: REST → **`bizproc.event.send` до HTTP 200**; писать рейтинг **только если значение изменилось**.
-- Bool `AutoFromLead`/`WriteToLead`: пусто = Да (`propFlag`).
+- Критерии всегда с лида по ключам `ScoringTable`; свойства активити: ScoringTable, RatingConfig, WriteToLead.
+- Bool `WriteToLead`: пусто = Да (`propFlag`).
 
 ## Debug
 

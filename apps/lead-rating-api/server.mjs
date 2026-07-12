@@ -4,6 +4,8 @@ import {
   buildActivityDefinition,
   fieldMeta,
   scoringTable,
+  resolveScoringTable,
+  resolveRatingConfig,
 } from "./lib/score.mjs";
 import {
   bitrixCall,
@@ -107,9 +109,9 @@ function fieldsFromProperties(properties = {}) {
   return fields;
 }
 
-function mergeLeadFields(fromProps, fromLead) {
+function mergeLeadFields(fromProps, fromLead, table = scoringTable) {
   const out = { ...fromProps };
-  for (const code of Object.keys(scoringTable)) {
+  for (const code of Object.keys(table)) {
     if (!out[code] && fromLead?.[code] != null && fromLead[code] !== "") {
       out[code] = fromLead[code];
     }
@@ -384,29 +386,47 @@ app.all("/bitrix/activity", async (req, res) => {
 
   try {
     let fields = fieldsFromProperties(properties);
-    const autoFromLead = propFlag(properties.AutoFromLead, true);
     const writeToLead = propFlag(properties.WriteToLead, true);
     let currentRatingId = "";
 
-    // Читаем лид: критерии (если AutoFromLead) и текущий рейтинг (чтобы не писать то же значение)
-    if (leadId && canCallRest && (autoFromLead || writeToLead)) {
-      const select = ["ID", fieldMeta.ratingField];
-      if (autoFromLead) select.push(...Object.keys(scoringTable));
+    const { table: activeTable, source: scoringSource } = resolveScoringTable(
+      properties.ScoringTable ?? properties.scoringTable
+    );
+    const { config: ratingConfig, source: ratingSource } = resolveRatingConfig(
+      properties.RatingConfig ?? properties.ratingConfig
+    );
+    const ratingField = ratingConfig.field;
+    debugBase.scoringSource = scoringSource;
+    debugBase.scoringFieldCount = Object.keys(activeTable).length;
+    debugBase.ratingSource = ratingSource;
+    debugBase.ratingField = ratingField;
+
+    // Критерии всегда с лида (ключи ScoringTable); рейтинг — для сравнения перед записью
+    if (leadId && canCallRest) {
+      const select = ["ID", ratingField, ...Object.keys(activeTable)];
       const lead = await bxRest(
         "crm.lead.get",
         { id: leadId, select },
         { domain, accessToken }
       );
-      if (autoFromLead) fields = mergeLeadFields(fields, lead);
-      currentRatingId = String(lead?.[fieldMeta.ratingField] ?? "").trim();
+      fields = mergeLeadFields(fields, lead, activeTable);
+      currentRatingId = String(lead?.[ratingField] ?? "").trim();
     }
 
-    result = calculateFromFields(fields);
+    result = calculateFromFields(fields, activeTable, ratingConfig);
     logMessage = result.ratingLabel
-      ? `Рейтинг: ${result.ratingLabel} (avg=${result.avg}, n=${result.activeCount})`
-      : `Рейтинг не рассчитан (нет рабочих критериев; leadId=${leadId || "—"})`;
+      ? `Рейтинг: ${result.ratingLabel} (avg=${result.avg}, n=${result.activeCount}; scoring=${scoringSource}; rating=${ratingSource})`
+      : `Рейтинг не рассчитан (нет рабочих критериев; leadId=${leadId || "—"}; scoring=${scoringSource}; rating=${ratingSource})`;
+    if (scoringSource === "file") {
+      logMessage +=
+        "; WARN: ScoringTable пуста — взят файл на сервере. В БП укажите константу в «Таблица весов (JSON)».";
+    }
+    if (ratingSource === "file") {
+      logMessage +=
+        "; WARN: RatingConfig пуст — взят файл на сервере. В БП укажите константу в «Конфиг рейтинга (JSON)».";
+    }
 
-    // Пишем «Рейтинг лида» только если значение реально изменилось —
+    // Пишем рейтинг только если значение реально изменилось —
     // иначе crm.lead.update снова дергает БП «при изменении» → лишний цикл.
     if (writeToLead && result.ratingEnumId && leadId && canCallRest) {
       const nextRatingId = String(result.ratingEnumId).trim();
@@ -417,13 +437,13 @@ app.all("/bitrix/activity", async (req, res) => {
           "crm.lead.update",
           {
             id: leadId,
-            fields: { [fieldMeta.ratingField]: result.ratingEnumId },
+            fields: { [ratingField]: result.ratingEnumId },
           },
           { domain, accessToken }
         );
         logMessage += currentRatingId
-          ? `; записано в лид (${currentRatingId} → ${nextRatingId})`
-          : "; записано в лид";
+          ? `; записано в ${ratingField} (${currentRatingId} → ${nextRatingId})`
+          : `; записано в ${ratingField}`;
       }
     }
 

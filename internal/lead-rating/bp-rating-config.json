@@ -1,6 +1,5 @@
 {
   "field": "UF_CRM_1783504656939",
-  "ratingField": "UF_CRM_1783504656939",
   "thresholds": [
     { "min": 3.26, "max": 4.0, "enumId": "3484", "label": "А+" },
     { "min": 2.51, "max": 3.25, "enumId": "3486", "label": "А" },

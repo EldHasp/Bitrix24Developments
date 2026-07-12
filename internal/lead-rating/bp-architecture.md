@@ -102,8 +102,9 @@
 
 1. Локальное приложение + активити **«Расчёт рейтинга лида»** (`bizproc.event.send`).
 2. OAuth (`BITRIX_CLIENT_ID`/`SECRET` + save-auth) + **отдельный** `BITRIX_WEBHOOK_URL` в Layero (запас после деплоев).
-3. Автозапуск БП на create/update; `crm.lead.update` рейтинга только если значение изменилось.
-4. HTTP API `POST /v1/lead-rating/calculate` — запасной путь.
+3. **Таблица весов** — JSON в свойстве `ScoringTable`; **конфиг рейтинга** — `RatingConfig` (`field` + `thresholds`). Критерии всегда с лида.
+4. Автозапуск БП на create/update; `crm.lead.update` рейтинга только если значение изменилось.
+5. HTTP API `POST /v1/lead-rating/calculate` — запасной путь (веса из файла сервиса).
 
-Чертёж весов: `bp-scoring-table.json` / `weights.md`; в runtime их читает API из `apps/lead-rating-api/data/`.  
+Чертёж весов: `bp-scoring-table.json` / `weights.md`.  
 Подробные грабли: [`docs/bitrix-local-app-activity.md`](../../docs/bitrix-local-app-activity.md).
