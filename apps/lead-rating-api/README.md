@@ -1,11 +1,15 @@
 # lead-rating-api
 
-Мини-сервис расчёта **Рейтинга лида** + **активити БП** Битрикс24 (Express, Layero `node_web`).
+Мини-сервис **активити БП** Битрикс24 (Express, Layero `node_web`):
 
-Источник весов: `data/scoring-table.json`.  
+1. **Расчёт рейтинга лида** (`lead_rating_calculate`)
+2. **Синхронизация групп источников за период** (`lead_source_groups_sync`) — порт логики из GasBitrixCoreLibrary / AppScript
+
+Источник весов рейтинга: `data/scoring-table.json`.  
+Массовые группы: [`internal/lead-rating/source-groups-sync-activity.md`](../../internal/lead-rating/source-groups-sync-activity.md).  
 Полный разбор граблей: [`docs/bitrix-local-app-activity.md`](../../docs/bitrix-local-app-activity.md).
 
-**Статус (2026-07, portal `braincon.bitrix24.ru`):** рабочий прод-контур — локальное приложение + активити + OAuth + отдельный входящий вебхук в Layero; БП `[AUTO] Категория клиента` на create/update; запись рейтинга только при изменении значения.
+**Статус (2026-07, portal `braincon.bitrix24.ru`):** рейтинг — рабочий прод; группы источников — добавлены во второе активити того же приложения.
 
 ## Локальный запуск
 
@@ -45,7 +49,7 @@ npx layero deploy --json --yes --promote
 ### Отдельный вебхук (не переиспользовать чужой)
 
 1. Разработчикам → **Другое** → **Входящий вебхук** (создание).
-2. Права: **crm** + **bizproc**.
+2. Права: **crm** + **bizproc** + **lists**.
 3. Список: **Интеграции** (`/devops/list/`) → открыть → переименовать (напр. `lead-rating-api (Layero)`).
 4. URL → только Layero `BITRIX_WEBHOOK_URL` (не git, не чат).
 5. **Не** жать «Перегенерировать» на вебхуках, которые уже стоят в других системах — старый URL умрёт.
@@ -63,7 +67,7 @@ npx layero deploy --json --yes --promote
 | Тип | Серверное |
 | Путь обработчика | `…preview.layero.ru/bitrix/handler` |
 | Путь установки | `…preview.layero.ru/bitrix/install` |
-| Права | `crm`, `bizproc` |
+| Права | `crm`, `bizproc`, `lists` (lists — для групп источников) |
 | Пункт меню | напр. «Рейтинг лида [Агаев Э.А.]» |
 
 `/bitrix/activity` в карточку приложения **не** ставить — только в `bizproc.activity.add`.
@@ -86,6 +90,16 @@ npx layero deploy --json --yes --promote
 - Не пишите каждый раз отладочное поле без условия — иначе лишний цикл «при изменении».
 
 Возвраты активити: `RatingEnumId`, `RatingLabel`, `Avg`, `ActiveCount`.
+
+### Группы источников (массово)
+
+Активити **`lead_source_groups_sync`** — «Синхронизация групп источников (период)».
+
+- Для MANUAL-БП по диапазону дат (замена итератора + вложенного AUTO-БП / AppScript).
+- Свойства: `DateFrom`, `DateTo`, `DateField`, `MaxBatches` (15), `WriteToLead`, `StrictAudit`.
+- Возврат **`Remaining`** — крутить цикл БП, пока > 0.
+- Онлайн `[AUTO] Обновить Группу Источника` на один лид **не заменяется**.
+- Подробности: [`internal/lead-rating/source-groups-sync-activity.md`](../../internal/lead-rating/source-groups-sync-activity.md).
 
 ### Таблица весов (без деплоя)
 
@@ -124,11 +138,12 @@ npx layero deploy --json --yes --promote
 |-------|------|------------|
 | POST | `/bitrix/install` | установка → регистрация активити |
 | ALL | `/bitrix/handler` | UI меню + BX24 save-auth |
-| ALL | `/bitrix/activity` | шаг БП → расчёт → `bizproc.event.send` |
+| ALL | `/bitrix/activity` | шаг БП → рейтинг или sync групп → `bizproc.event.send` |
 | POST | `/bitrix/save-auth` | сохранить OAuth |
 | GET | `/bitrix/debug/last-activity` | лог вызовов активити |
 | GET | `/bitrix/debug/oauth-status` | есть ли webhook/refresh/file |
-| POST | `/v1/lead-rating/calculate` | HTTP API (`X-Api-Key`) |
+| POST | `/v1/lead-rating/calculate` | HTTP API рейтинга (`X-Api-Key`) |
+| POST | `/v1/source-groups/sync` | HTTP API массовой синхронизации групп |
 
 ## HTTP API (запасной путь)
 

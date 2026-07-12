@@ -10,13 +10,15 @@ alwaysApply: true
 ## Must
 
 - Список — **Интеграции** (`/devops/list/`), не плитка «Другое».
-- Серверное приложение; права **crm** + **bizproc**.
+- Серверное приложение; права **crm** + **bizproc** (+ **lists**, если есть sync групп источников).
 - В карточке только `/bitrix/handler` + `/bitrix/install`; **`/bitrix/activity` в карточку нельзя**.
 - Для Битрикс URL — **Layero preview**, не apex.
 - OAuth: `BITRIX_CLIENT_ID`/`SECRET` + save-auth при открытии меню.
-- После деплоя Layero OAuth-файл стирается → в Layero держать **отдельный** `BITRIX_WEBHOOK_URL` (crm+bizproc) или refresh. Не переиспользовать вебхук других систем; не «Перегенерировать» чужие. Вебхук — запас для своего портала, не схема раздачи другим.
+- После деплоя Layero OAuth-файл стирается → в Layero держать **отдельный** `BITRIX_WEBHOOK_URL` (crm+bizproc+lists) или refresh. Не переиспользовать вебхук других систем; не «Перегенерировать» чужие. Вебхук — запас для своего портала, не схема раздачи другим.
 - Активити: REST → **`bizproc.event.send` до HTTP 200**; писать рейтинг **только если значение изменилось**.
-- Критерии всегда с лида по ключам `ScoringTable`; свойства активити: ScoringTable, RatingConfig, WriteToLead.
+- В одном приложении могут быть несколько `CODE` на один handler (`lead_rating_calculate`, `lead_source_groups_sync`).
+- Критерии рейтинга всегда с лида по ключам `ScoringTable`; свойства: ScoringTable, RatingConfig, WriteToLead.
+- Массовые группы источников: DateFrom/DateTo + цикл по `Remaining`; онлайн AUTO на 1 лид не трогать.
 - Bool `WriteToLead`: пусто = Да (`propFlag`).
 
 ## Debug

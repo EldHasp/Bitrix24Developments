@@ -222,27 +222,37 @@ export function bx24BootstrapHtml({
 <body>
   <div class="wrap">
     <h1>${title}</h1>
-    <p class="sub">Локальное приложение Битрикс24 · активити БП <code>${activityCode}</code></p>
+    <p class="sub">Локальное приложение Битрикс24 · активити: <code>${activityCode}</code></p>
     <p id="status" class="muted">Подключение к Битрикс24…</p>
 
     <div id="panel" style="display:none">
       <div class="card">
         <h2>Что это</h2>
         <ul>
-          <li>Считает рейтинг лида (А+ / А / В / С) по критериям из ScoringTable.</li>
-          <li>В БП: <b>Действия приложений → Расчёт рейтинга лида</b>.</li>
-          <li>Handler активити: <code id="handlerUrl">${safeHandler || "…"}</code></li>
+          <li><b>Расчёт рейтинга лида</b> (<code>lead_rating_calculate</code>) — А+/А/В/С по ScoringTable.</li>
+          <li><b>Синхронизация групп источников (период)</b> (<code>lead_source_groups_sync</code>) — массово «Группа источника» / «Группа групп» за DateFrom…DateTo.</li>
+          <li>В БП: <b>Действия приложений</b> → нужное активити.</li>
+          <li>Handler: <code id="handlerUrl">${safeHandler || "…"}</code></li>
         </ul>
       </div>
 
       <div class="card">
-        <h2>Настройка активити в БП</h2>
+        <h2>Рейтинг лида</h2>
         <ul>
-          <li><b>Таблица весов (JSON)</b> = константа портала или шаблона БП</li>
-          <li><b>Конфиг рейтинга (JSON)</b> = поле записи + пороги avg→enumId</li>
-          <li><b>Записать рейтинг в лид</b> = Да</li>
-          <li>Критерии всегда читаются с лида по ключам ScoringTable</li>
-          <li>«Период ожидания» 10+ мин — это таймаут; ответ обычно за секунды</li>
+          <li><b>Таблица весов (JSON)</b> + <b>Конфиг рейтинга (JSON)</b> = константы БП</li>
+          <li><b>Записать рейтинг в лид</b> = Да; критерии всегда с лида</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Группы источников (массово)</h2>
+        <ul>
+          <li><b>Дата с / Дата по</b> — период (верхняя граница исключительно)</li>
+          <li><b>Поле даты</b> — DATE_CREATE или DATE_MODIFY</li>
+          <li><b>Макс. пачек</b> — по умолчанию 15 (~150 лидов за вызов)</li>
+          <li>Цикл БП: пока <code>Remaining &gt; 0</code> — снова вызвать активити</li>
+          <li>Права приложения/вебхука: <b>crm</b> + <b>bizproc</b> + <b>lists</b></li>
+          <li>«Период ожидания» 10+ мин на шаг (таймаут)</li>
         </ul>
       </div>
 
@@ -399,7 +409,7 @@ export function bx24BootstrapHtml({
         registerActivity(auth)
           .then(function (j) {
             regStatus.className = 'ok';
-            regStatus.textContent = 'Активити перерегистрировано: ' + j.code;
+            regStatus.textContent = 'Активити перерегистрированы: ' + (j.codes ? j.codes.join(', ') : j.code);
             log('Handler: ' + j.handler);
           })
           .catch(function (e) {
